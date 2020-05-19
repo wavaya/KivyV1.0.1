@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin :"org.jetbrains.kotlin.plugin.serialization"  //必须加上才行
+
+android {
+    compileSdkVersion compileVersion
+    buildToolsVersion buildToolsVersion
+
+
+    defaultConfig {
+        applicationId "xyz.wayhua.kivy101"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 1
+        versionName "1.0." + versionCode
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    //生成apk时带上版本信息，方便查看
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+
+            def fileName = outputFileName.replace(".apk",
+                    "-V${defaultConfig.versionName}.apk")
+            outputFileName = fileName
+        }
+    }
+    flavorDimensions "params"
+    productFlavors {
+        anhuiv2test {
+            buildConfigField "String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\""
+            buildConfigField "String", "BASE_IMAGE_URL", "\"https://paper.dropboxstatic.com/static/img/\""
+            buildConfigField "String", "DEFAULT_IMAGE_URL", "\"https://paper.dropboxstatic.com/static/img/favicon/apple-touch-icon.png\""
+
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation kotlin.kotlinStdlibJdk
+    implementation kotlin.coreKtx
+    implementation kotlin.coroutineCore
+    implementation kotlin.coroutineAndroid
+    implementation kotlin.serializationRuntime
+
+    implementation anko.anko
+
+    implementation koin.koinAndroid
+    implementation koin.koinExt
+
+    implementation room.room
+    implementation room.roomKtx
+    implementation room.roomRxJava
+//   无法编译是要改成kapt
+    kapt room.roomCompiler
+
+
+    implementation rxJava.rxjava
+    implementation rxJava.rxandroid
+    implementation rxJava.rxKotlin
+    implementation rxJava.retrofit
+    implementation rxJava.gsonConverter
+    implementation rxJava.adapterRxjava2
+    implementation rxJava.okhttp
+    implementation rxJava.okhttpLogger
+    implementation rxJava.converterKotlinSerialization
+    implementation rxJava.converterScalar
+    implementation rxJava.coroutineAdapter
+
+
+
+    implementation supportLib.appcompat
+    implementation supportLib.material
+    implementation supportLib.constraintlayout
+    implementation navigation.fragment
+    implementation navigation.ui
+    implementation navigation.uiKtx
+
+    implementation glide.glide
+    implementation chuckDebug
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
