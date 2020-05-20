@@ -1,0 +1,30 @@
+package xyz.wayhua.kivy101.mvvm.databinding
+
+import android.annotation.SuppressLint
+import androidx.cardview.widget.CardView
+import androidx.databinding.BindingAdapter
+import xyz.wayhua.kivy101.ext.*
+
+
+/**
+ *
+ * In syaa Allah created & modified
+ * by mochadwi on 01/03/19
+ * dedicated to build social-app
+ *
+ */
+
+object CardViewBinding {
+    @SuppressLint(value = ["PrivateResource", "UNCHECKED_CAST"])
+    @BindingAdapter(value = ["card:isError", "card:isProgress"], requireAll = false)
+    @JvmStatic
+    fun CardView.isVisible(isError: Boolean?, isProgress: Boolean?) {
+        if (!isError.default && !isProgress.default) {
+            visible
+            slideTop()
+        } else {
+            gone
+            stopAnim()
+        }
+    }
+}

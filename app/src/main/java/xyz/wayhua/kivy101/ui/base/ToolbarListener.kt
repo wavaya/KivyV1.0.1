@@ -1,0 +1,14 @@
+package xyz.wayhua.kivy101.ui.base
+
+import androidx.appcompat.widget.Toolbar
+
+/**
+ *
+ * In syaa Allah created or modified by @mochadwi
+ * On 2019-06-04 for social-app
+ */
+
+interface ToolbarListener {
+    fun setupToolbar(toolbar: Toolbar)
+    fun updateTitleToolbar(newTitle: String)
+}
